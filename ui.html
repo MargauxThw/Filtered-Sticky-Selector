@@ -1,0 +1,289 @@
+<!-- <div id="heading">
+  <h2>Sticky Processor</h2>
+</div> -->
+<!-- <div class="button-row">
+  <button id="create">For Selected only</button>
+  <button id="create">For All Sticky Notes</button>
+</div> -->
+
+<!-- <div id="sort">
+  <h2>Sort</h2>
+
+  <div class="button-row">
+    <button id="create">Ascending</button>
+    <button id="create">Descending</button>
+  </div>
+  <div class="color-row">
+
+    <label for="sort-colors">By color:</label>
+    <select name="sort-colors" id="sort-colors">
+      <option value="gray">Gray</option>
+      <option value="red">Red</option>
+      <option value="orange">Orange</option>
+      <option value="yellow">Yellow</option>
+      <option value="green">Green</option>
+      <option value="teal">Teal</option>
+      <option value="blue">Blue</option>
+      <option value="violet">Violet</option>
+      <option value="pink">Pink</option>
+      <option value="light-gray">Light gray</option>
+    </select>
+  </div>
+  <p>By colour: <select id="count" type="select" value="5"></p>
+</div> -->
+
+<div id="filter">
+	<div>
+		<!-- <h2>Set filters</h2> -->
+		<div class="color-row">
+			<label for="filter-colors">By color:</label>
+			<select name="filter-colors" id="filter-colors">
+				<option value="all">All colors</option>
+				<option value="gray">Gray</option>
+				<option value="red">Red</option>
+				<option value="orange">Orange</option>
+				<option value="yellow">Yellow</option>
+				<option value="green">Green</option>
+				<option value="teal">Teal</option>
+				<option value="blue">Blue</option>
+				<option value="violet">Violet</option>
+				<option value="pink">Pink</option>
+				<option value="light-gray">Light gray</option>
+			</select>
+		</div>
+	</div>
+	<!-- Add authors! -->
+
+	<div id="filter-container-1">
+		<select name="filter-select-1" id="filter-select-1">
+			<option value="choose">Choose One</option>
+			<option value="c">Contains</option>
+			<option value="dnc">Does Not Contain</option>
+			<option value="bw">Begins with</option>
+			<option value="dnbw">Does Not Begin with</option>
+			<option value="ew">Ends with</option>
+			<option value="dnew">Does Not End with</option>
+			<option value="e">Equals</option>
+			<option value="dne">Does Not Equal</option>
+		</select>
+		<input id="input-1">
+	</div>
+
+</div>
+<button id="add" class="tertiary">Add a filter</button>
+
+
+
+<div id="bottom">
+	<div class="button-row" id="bottom-buttons">
+		<button id="apply-all" class="secondary">Select from all</button>
+		<button id="apply-selected" class="primary">Select from selected</button>
+	</div>
+	<!-- <button id="reset" class="tertiary">Reset</button> -->
+</div>
+
+
+
+<script>
+	document.getElementById('add').onclick = () => {
+		const filters = document.querySelectorAll('*[id^="filter-container-"]')
+		const parts = filters[filters.length - 1].id.split("-")
+		const lastNum = parts[parts.length - 1]
+		const nextNum = parseInt(parts[parts.length - 1]) + 1
+
+		const newelement = document.getElementById('filter-container-' + lastNum).cloneNode(true)
+		newelement.setAttribute('id', 'filter-container-' + nextNum);
+		newelement.getElementsByTagName('input')[0].setAttribute('id', 'input-' + nextNum);
+		newelement.getElementsByTagName('select')[0].setAttribute('id', 'filter-select-' + nextNum);
+		newelement.getElementsByTagName('select')[0].setAttribute('name', 'filter-select-' + nextNum);
+		newelement.getElementsByTagName('input')[0].value = "";
+
+		document.getElementById('filter').appendChild(newelement);
+
+	}
+
+	// document.getElementById('reset').onclick = () => {
+	// 	const filters = document.querySelectorAll('*[id^="filter-container-"]')
+	// 	for (let i = 0; i < filters.length; i++) {
+	// 		if (filters[i].id !== "filter-container-1") {
+	// 			filters[i].remove()
+	// 		}
+	// 	}
+
+	// 	document.getElementById('filter-select-1').selectedIndex = 0
+	// 	document.getElementById('input-1').value = ""
+
+	// }
+
+	function getFilters() {
+		const selectors = document.querySelectorAll('*[id^="filter-select-"]')
+		const inputs = document.querySelectorAll('*[id^="input-"]')
+		var filters = []
+		for (let i = 0; i < selectors.length; i++) {
+			if (selectors[i].value !== "choose") {
+				filters.push({
+					filter: selectors[i].value,
+					input: inputs[i].value
+				})
+			}
+		}
+
+		return filters
+	}
+
+	document.getElementById('apply-selected').onclick = () => {
+		const filters = getFilters()
+
+		parent.postMessage({
+			pluginMessage: {
+				type: 'apply-selected',
+				filters: filters,
+				color: document.getElementById('filter-colors').value
+
+			}
+		}, '*')
+	}
+
+	document.getElementById('apply-all').onclick = () => {
+		const filters = getFilters()
+
+		parent.postMessage({
+			pluginMessage: {
+				type: 'apply-all',
+				filters: filters,
+				color: document.getElementById('filter-colors').value
+
+			}
+		}, '*')
+	}
+</script>
+
+<style>
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		padding: 0 4px;
+	}
+
+	h2 {
+		color: black;
+		text-align: left;
+		font-size: 16;
+		padding-bottom: 8px;
+	}
+
+	#heading {
+		border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .1));
+		padding: 2px;
+		margin: 0;
+	}
+
+
+	#filter-button {
+		display: flex;
+		padding: 8px 0 20px 0;
+	}
+
+	.button-row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		padding: 20px 0px 12px;
+		gap: 12px;
+	}
+
+	#bottom-buttons {
+		border-top: 1px solid #080808;
+		bottom: 0;
+	}
+
+	#bottom {
+		background-color: white;
+		margin-top: 20px;
+	}
+
+	.color-row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 12px;
+		border-bottom: 1px solid #080808;
+		padding-bottom: 20px;
+		margin-bottom: 8px;
+		margin-top: 12px;
+	}
+
+	#filter {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding-bottom: 20px;
+		/* border-top: 1px solid var(--color-border, rgba(0, 0, 0, .1)); */
+	}
+
+	[id^="filter-container-"] {
+		display: flex;
+		flex-direction: row;
+		gap: 4px;
+	}
+
+	input,
+	select {
+		width: 100%;
+	}
+
+	label {
+		white-space: nowrap;
+	}
+
+	button {
+		width: 100%;
+		margin: 0;
+		/* padding: 4px; */
+		font-family: Arial;
+		font-size: 12px;
+		font-weight: 600;
+		font-style: normal;
+		text-decoration: none;
+		padding: 10px 11px;
+		border-radius: 4px;
+		display: inline-block;
+	}
+
+	button:active {
+		transform: scale(0.98);
+	}
+
+	button.primary {
+		background-color: #FFD966;
+		color: #080808;
+		border: 1px solid #FFD966;
+	}
+
+	button.secondary {
+		background-color: #080808;
+		color: rgb(240, 240, 240);
+		border: 1px solid #080808;
+	}
+
+	button.tertiary {
+		background-color: #ebebeb;
+		color: #080808;
+		border: 1px solid #ebebeb;
+	}
+
+	select, input {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 14px;
+		padding: 4px;
+		border: 1px solid #080808;
+		border-radius: 4px;
+	}
+
+	*:focus {
+		outline: 2px solid #FFD966;
+
+	}
+
+	
+</style>

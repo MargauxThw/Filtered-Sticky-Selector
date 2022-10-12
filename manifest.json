@@ -1,0 +1,10 @@
+{
+  "name": "Sticky Processor",
+  "id": "1160377045857359690",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figjam"
+  ],
+  "ui": "ui.html"
+}

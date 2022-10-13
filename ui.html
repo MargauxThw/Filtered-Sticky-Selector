@@ -1,40 +1,5 @@
-<!-- <div id="heading">
-  <h2>Sticky Processor</h2>
-</div> -->
-<!-- <div class="button-row">
-  <button id="create">For Selected only</button>
-  <button id="create">For All Sticky Notes</button>
-</div> -->
-
-<!-- <div id="sort">
-  <h2>Sort</h2>
-
-  <div class="button-row">
-    <button id="create">Ascending</button>
-    <button id="create">Descending</button>
-  </div>
-  <div class="color-row">
-
-    <label for="sort-colors">By color:</label>
-    <select name="sort-colors" id="sort-colors">
-      <option value="gray">Gray</option>
-      <option value="red">Red</option>
-      <option value="orange">Orange</option>
-      <option value="yellow">Yellow</option>
-      <option value="green">Green</option>
-      <option value="teal">Teal</option>
-      <option value="blue">Blue</option>
-      <option value="violet">Violet</option>
-      <option value="pink">Pink</option>
-      <option value="light-gray">Light gray</option>
-    </select>
-  </div>
-  <p>By colour: <select id="count" type="select" value="5"></p>
-</div> -->
-
 <div id="filter">
 	<div>
-		<!-- <h2>Set filters</h2> -->
 		<div class="color-row">
 			<label for="filter-colors">By color:</label>
 			<select name="filter-colors" id="filter-colors">
@@ -52,7 +17,6 @@
 			</select>
 		</div>
 	</div>
-	<!-- Add authors! -->
 
 	<div id="filter-container-1">
 		<select name="filter-select-1" id="filter-select-1">
@@ -194,7 +158,6 @@
 	}
 
 	#bottom-buttons {
-		/* border-top: 1px solid #080808; */
 		border-top: 1px solid var(--color-border, rgba(0, 0, 0, .1));
 
 		bottom: 0;
@@ -209,7 +172,6 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 12px;
-		/* border-bottom: 1px solid #fff; */
 		border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .1));
 
 		padding-bottom: 20px;
@@ -222,7 +184,6 @@
 		flex-direction: column;
 		gap: 12px;
 		padding-bottom: 20px;
-		/* border-top: 1px solid var(--color-border, rgba(0, 0, 0, .1)); */
 	}
 
 	[id^="filter-container-"] {
@@ -238,7 +199,6 @@
 	button {
 		width: 100%;
 		margin: 0;
-		/* padding: 4px; */
 		font-family: Arial;
 		font-size: 12px;
 		font-weight: 600;
@@ -254,10 +214,8 @@
 	}
 
 	button.primary {
-		/* background-color: #FFD966; */
 		background-color: #0C99FF;
 		color: #fff;
-		/* color: #080808; */
 		border: 1px solid #0C99FF;
 	}
 
@@ -273,19 +231,8 @@
 		border: 1px solid #080808;
 	}
 
-	/* button.tertiary {
-		background-color: #fff;
-		color: #080808;
-		border: 1px solid #fff;
-		text-decoration: underline;
-		padding: 0;
-		margin: 0 auto;
-		display: block;
-		width: max-content;
-		
-	} */
-
-	select, input {
+	select,
+	input {
 		width: 100%;
 		font-size: 14px;
 		padding: 4px;
@@ -307,8 +254,6 @@
 
 	*:focus {
 		outline: 2px solid #0C99FF;
-
 	}
-
 	
 </style>

@@ -79,7 +79,7 @@
 		<button id="apply-all" class="secondary">Select from all</button>
 		<button id="apply-selected" class="primary">Select from selected</button>
 	</div>
-	<!-- <button id="reset" class="tertiary">Reset</button> -->
+	<button id="reset" class="tertiary">Reset</button>
 </div>
 
 
@@ -102,18 +102,18 @@
 
 	}
 
-	// document.getElementById('reset').onclick = () => {
-	// 	const filters = document.querySelectorAll('*[id^="filter-container-"]')
-	// 	for (let i = 0; i < filters.length; i++) {
-	// 		if (filters[i].id !== "filter-container-1") {
-	// 			filters[i].remove()
-	// 		}
-	// 	}
+	document.getElementById('reset').onclick = () => {
+		const filters = document.querySelectorAll('*[id^="filter-container-"]')
+		for (let i = 0; i < filters.length; i++) {
+			if (filters[i].id !== "filter-container-1") {
+				filters[i].remove()
+			}
+		}
 
-	// 	document.getElementById('filter-select-1').selectedIndex = 0
-	// 	document.getElementById('input-1').value = ""
+		document.getElementById('filter-select-1').selectedIndex = 0
+		document.getElementById('input-1').value = ""
 
-	// }
+	}
 
 	function getFilters() {
 		const selectors = document.querySelectorAll('*[id^="filter-select-"]')
@@ -160,8 +160,9 @@
 
 <style>
 	body {
-		font-family: Arial, Helvetica, sans-serif;
+		font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		padding: 0 4px;
+		background-color: F6F7FC;
 	}
 
 	h2 {
@@ -193,12 +194,13 @@
 	}
 
 	#bottom-buttons {
-		border-top: 1px solid #080808;
+		/* border-top: 1px solid #080808; */
+		border-top: 1px solid var(--color-border, rgba(0, 0, 0, .1));
+
 		bottom: 0;
 	}
 
 	#bottom {
-		background-color: white;
 		margin-top: 20px;
 	}
 
@@ -207,7 +209,9 @@
 		flex-direction: row;
 		align-items: center;
 		gap: 12px;
-		border-bottom: 1px solid #080808;
+		/* border-bottom: 1px solid #fff; */
+		border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, .1));
+
 		padding-bottom: 20px;
 		margin-bottom: 8px;
 		margin-top: 12px;
@@ -225,11 +229,6 @@
 		display: flex;
 		flex-direction: row;
 		gap: 6px;
-	}
-
-	input,
-	select {
-		width: 100%;
 	}
 
 	label {
@@ -255,9 +254,11 @@
 	}
 
 	button.primary {
-		background-color: #FFD966;
-		color: #080808;
-		border: 1px solid #FFD966;
+		/* background-color: #FFD966; */
+		background-color: #0C99FF;
+		color: #fff;
+		/* color: #080808; */
+		border: 1px solid #0C99FF;
 	}
 
 	button.secondary {
@@ -267,6 +268,12 @@
 	}
 
 	button.tertiary {
+		background-color: transparent;
+		color: #080808;
+		border: 1px solid #080808;
+	}
+
+	/* button.tertiary {
 		background-color: #fff;
 		color: #080808;
 		border: 1px solid #fff;
@@ -276,18 +283,30 @@
 		display: block;
 		width: max-content;
 		
-	}
+	} */
 
 	select, input {
-		font-family: Arial, Helvetica, sans-serif;
+		width: 100%;
 		font-size: 14px;
 		padding: 4px;
-		border: 1px solid #080808;
+		border: none;
+		-webkit-box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+		box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
 		border-radius: 4px;
+		height: 34px;
+		background: #fff;
+	}
+
+	select {
+		border-right: 6px solid transparent
+	}
+
+	input {
+		border: 6px solid transparent
 	}
 
 	*:focus {
-		outline: 2px solid #FFD966;
+		outline: 2px solid #0C99FF;
 
 	}
 

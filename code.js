@@ -1,7 +1,7 @@
 figma.showUI(
 	__html__, {
 	width: 350,
-	height: 400,
+	height: 420,
 	title: "Filtered Sticky Selector"
 },
 )

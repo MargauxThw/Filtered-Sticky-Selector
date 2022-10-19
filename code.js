@@ -123,7 +123,6 @@ function checkMatch(filters, str) {
 function checkColor(color, fills) {
 	// Check that Sticky is correct color
 	if (color !== "all") {
-		console.log(color)
 		for (let i = 0; i < colors.length; i++) {
 			if (colors[i].name === color) {
 				if (fills.color.r != colors[i].r) {
@@ -142,6 +141,21 @@ function checkColor(color, fills) {
 	return true
 }
 
+function getAncestorStickies(parent, ancestors) {
+	// Recursively get all Stickies in sections (and sections in sections etc.)
+	for (let i = 0; i < parent.children.length; i++) {
+		if (parent.children[i].type === "STICKY") {
+			ancestors.push(parent.children[i])
+
+		} else if (parent.children[i].type === "SECTION") {
+			ancestors = getAncestorStickies(parent.children[i], ancestors)
+
+		}
+	}
+
+	return ancestors
+}
+
 
 figma.ui.onmessage = msg => {
 
@@ -156,7 +170,19 @@ figma.ui.onmessage = msg => {
 	const nodes = []
 
 	for (let i = 0; i < children.length; i++) {
-		if (children[i].type === "STICKY") {
+		if (children[i].type === "SECTION") {
+			var ancestors = getAncestorStickies(children[i], [])
+			for (let j = 0; j < ancestors.length; j++) {
+				if (ancestors[j].type === "STICKY") {
+					if (checkColor(msg.color, ancestors[j].fills[0])) {
+						if (checkMatch(msg.filters, ancestors[j].text.characters)) {
+							nodes.push(ancestors[j])
+
+						}
+					}
+				}
+			}
+		} else if (children[i].type === "STICKY") {
 			if (checkColor(msg.color, children[i].fills[0])) {
 				if (checkMatch(msg.filters, children[i].text.characters)) {
 					nodes.push(children[i])

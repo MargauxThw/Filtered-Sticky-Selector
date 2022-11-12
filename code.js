@@ -69,47 +69,60 @@ const colors = [{
 
 ]
 
-function checkMatch(filters, str) {
+function checkMatch(filters, orig_str, case_sens) {
 	// Check that the text in Sticky meets filter requirements
+	var input
+	var str
+	
 	for (let i = 0; i < filters.length; i++) {
+		if (case_sens) {
+			input = filters[i].input
+			str = orig_str
+
+		} else {
+			input = filters[i].input.toLowerCase()
+			str = orig_str.toLowerCase()
+
+		}
+
 		switch (filters[i].filter) {
 			case "e":
-				if (filters[i].input !== str) {
+				if (input !== str) {
 					return false
 				}
 				break
 			case "dne":
-				if (filters[i].input === str) {
+				if (input === str) {
 					return false
 				}
 				break
 			case "bw":
-				if (!str.startsWith(filters[i].input)) {
+				if (!str.startsWith(input)) {
 					return false
 				}
 				break
 			case "dnbw":
-				if (str.startsWith(filters[i].input)) {
+				if (str.startsWith(input)) {
 					return false
 				}
 				break
 			case "ew":
-				if (!str.endsWith(filters[i].input)) {
+				if (!str.endsWith(input)) {
 					return false
 				}
 				break
 			case "dnew":
-				if (str.endsWith(filters[i].input)) {
+				if (str.endsWith(input)) {
 					return false
 				}
 				break
 			case "c":
-				if (!str.includes(filters[i].input)) {
+				if (!str.includes(input)) {
 					return false
 				}
 				break
 			case "dnc":
-				if (str.includes(filters[i].input)) {
+				if (str.includes(input)) {
 					return false
 				}
 				break
@@ -168,6 +181,7 @@ figma.ui.onmessage = msg => {
 	}
 
 	const nodes = []
+	const case_sens = msg.case_sens
 
 	for (let i = 0; i < children.length; i++) {
 		if (children[i].type === "SECTION") {
@@ -175,7 +189,7 @@ figma.ui.onmessage = msg => {
 			for (let j = 0; j < ancestors.length; j++) {
 				if (ancestors[j].type === "STICKY") {
 					if (checkColor(msg.color, ancestors[j].fills[0])) {
-						if (checkMatch(msg.filters, ancestors[j].text.characters)) {
+						if (checkMatch(msg.filters, ancestors[j].text.characters, case_sens)) {
 							nodes.push(ancestors[j])
 
 						}
@@ -184,7 +198,7 @@ figma.ui.onmessage = msg => {
 			}
 		} else if (children[i].type === "STICKY") {
 			if (checkColor(msg.color, children[i].fills[0])) {
-				if (checkMatch(msg.filters, children[i].text.characters)) {
+				if (checkMatch(msg.filters, children[i].text.characters, case_sens)) {
 					nodes.push(children[i])
 
 				}

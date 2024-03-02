@@ -3,6 +3,7 @@
   "id": "1160377045857359690",
   "api": "1.0.0",
   "main": "code.js",
+  "documentAccess": "dynamic-page",
   "editorType": [
     "figjam"
   ],
